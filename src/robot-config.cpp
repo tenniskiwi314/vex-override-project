@@ -223,12 +223,21 @@ void buttonRightAction() {
   grabberMotor.stop(coast);
 }
 
+//Kevin's testing function for L1 button pressing (10/12/2026)
+void buttonL1Action() {
+  while(controller1.ButtonL1.pressing()) { 
+    grabberMotor.spin(forward, 10, volt);
+    wait(20, msec); 
+  }
+  grabberMotor.stop(coast);
+}
+
 void setupButtonMapping() {
   controller1.ButtonUp.pressed(buttonUpAction);
   controller1.ButtonDown.pressed(buttonDownAction);
   controller1.ButtonLeft.pressed(buttonLeftAction);
   controller1.ButtonRight.pressed(buttonRightAction);
-
+  controller1.ButtonL1.pressed(buttonL1Action);
   controller1.ButtonA.pressed(quickTestCode);
 
 }
@@ -253,9 +262,25 @@ void quickTestCode()
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
   // Write test code here:
+  //Kevin's chasis test code (10/12/2026)
+  // chassis.setHeading(0);
+  //initial code:
+  chassis.drive(6);  
+  // Kevin's testing code for left auton (10/12/2026)
+ // chassis.driveWithVoltage(6, 6);
+  //wait(1000, msec);
+  chassis.stop(coast);
+  return;
+  // rotate slowly for 1 second
+  chassis.driveWithVoltage(-4, 4);
+  wait(1000, msec);
+  chassis.stop(coast);
 
-  chassis.drive(24);  // drive a tile distance
-  
+  grabberMotor.spin(forward, 5, volt);
+  wait(1, sec);
+  grabberMotor.spin(reverse, 5, volt);
+  wait(1, sec);
+  grabberMotor.stop(coast);
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];

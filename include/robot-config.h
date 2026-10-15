@@ -4,27 +4,28 @@ using namespace vex;
 #define bot_4motor_direct_4inch // you can define multiple robots with different motor configs
 
 #ifdef bot_4motor_direct_4inch
-const int LEFT_PORT1 = 1;
-const int LEFT_PORT2 = 11;
-const int LEFT_PORT3 = -20;  // use unused port for the third left motor
-const int RIGHT_PORT1 = -10;
-const int RIGHT_PORT2 = -19;
-const int RIGHT_PORT3 = -20; // use unused port for the third right motor
+
+const int LEFT_PORT1 = 16;
+const int LEFT_PORT2 = 4;
+const int LEFT_PORT3 = -21;  // use unused port for the third left motor
+const int RIGHT_PORT1 = -18;
+const int RIGHT_PORT2 = -10;
+const int RIGHT_PORT3 = -21; // use unused port for the third right motor
 const float WHEEL_DIAMETER = 4.0;
 const float GEAR_RATIO = 1/3.0;  // default cartiridge is 600rpm
 
 const int DRIVE_MODE = 1;  //1 = double arcade, 2 = tank
 const bool LEFT_RIGHT_STICK_SWAP = false;
 
-const int INERTIAL_PORT = -20;  //use unused negative port number to skip inertial sensor setup
+const int INERTIAL_PORT = 1;  //use unused negative port number to skip inertial sensor setup
 const int INERTIAL_SCALE = 360;
 
-const int GRABBER_PORT = -20;  // use unused port for the grabber motor
+const int GRABBER_PORT = 3;  // use unused port for the grabber motor
 const int LIFT_PORT1 = -20;  // use unused port for the first lift motor 
 const int LIFT_PORT2 = -20;  // use unused port for the second lift motor
 const int ROLLER_PORT = -20;  // use unused port for the roller motor
 
-const int NUMBER_OF_MOTORS = 4;
+const int NUMBER_OF_MOTORS = 1;
 const float LIFT_MAX_POSITION = 0;  // the max lift position is not set
 
 #endif

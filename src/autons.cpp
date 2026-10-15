@@ -12,6 +12,21 @@
 
 void left_auton(){
   chassis.setHeading(0);
+  //initial code:
+  chassis.drive(6);  
+  // Kevin's testing code for left auton (10/12/2026)
+  chassis.driveWithVoltage(6, 6);
+  wait(1000, msec);
+  // rotate slowly for 1 second
+  chassis.driveWithVoltage(-4, 4);
+  wait(1000, msec);
+  chassis.stop(coast);
+
+  grabberMotor.spin(forward, 5, volt);
+  wait(1, sec);
+  grabberMotor.spin(reverse, 5, volt);
+  wait(1, sec);
+  grabberMotor.stop(coast);
   // sequence of actions for left auton
 }
 
