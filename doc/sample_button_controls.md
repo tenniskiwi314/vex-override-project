@@ -6,6 +6,7 @@
 ## Down
 *  press to lower the lift tiny bit
 *  hold to continously lower 
+*  with modifier button, reset the lift rotation sensor position to 0
 
 ## Left
 *  press to rotate the grabber for 600 millseconds (e.g. open claw)
@@ -15,9 +16,12 @@
 *  press to rotate the grabber for 600 millseconds (e.g. close claw)
 *  hold to continously rotate the grabber (e.g. roller reverse intake)
 
-## X
-*  if in test mode, change drive mode (single arcard -> double arcade -> tank)
-*  if in skill mode, hold to run the skill auton in steps
+## R2 (sample)
+*  modifier button
+
+## B (optional)
+*  toggle drivetrain brake
+
 
 # Programmer Button Control
 ## A
@@ -25,6 +29,13 @@
 *  if in test mode, press to run the default auton fuction
 *  enter test mode if press and hold within 5 seconds of program start
 
-## right button
+## Left button
+*  if in test mode, presss to change the team color
+
+## Right button
 *  if in test mode, presss to change the default auton
+
+## X
+*  if in test mode, change drive mode (single arcard -> double arcade -> tank)
+*  if in skill mode, hold to run the skill auton in steps
 

@@ -4,12 +4,12 @@
 		"json": 2
 	},
 	"project": {
-		"name": "demo",
+		"name": "practice",
 		"description": "",
-		"creationDate": "Thu, 08 Oct 2026 21:19:06 GMT",
+		"creationDate": "Mon, 28 Sep 2026 00:54:59 GMT",
 		"platform": "V5",
 		"language": "cpp",
-		"slot": 2,
+		"slot": 1,
 		"sdkVersion": "V5_20240802_15_00_00",
 		"cpp": {
 			"includePath": [],

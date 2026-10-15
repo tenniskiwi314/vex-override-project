@@ -101,8 +101,6 @@ public:
   // Gets the current heading of the robot.
   float getHeading();
 
-  float getVelocity();
-
   // A flag to indicate if the drivetrain needs to be stopped.
   bool drivetrainNeedsStopped = false;
 

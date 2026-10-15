@@ -314,10 +314,6 @@ void Drivetrain::controlArcade(int y, int x) {//need update
   }
 }
 
-float Drivetrain::getVelocity() {
-  return (leftDrive.velocity(percent) + rightDrive.velocity(percent)) / 2.0;
-}
-
 void Drivetrain::controlTank(int left, int right) {
   float leftthrottle = left;
   float rightthrottle = right;

@@ -12,7 +12,7 @@ RGB Template is a plug-and-play VEX template designed for quick prototyping and 
 * **Built-in match and autonomous timers**: Easily track game and autonomous time without adding your own timing code.
 
 ## Prerequsite
-### Knowldge of basic c++ syntax
+### Knowledge of basic c++ syntax
 * variable and statement
 * arithmetic
 * if

@@ -12,21 +12,6 @@
 
 void left_auton(){
   chassis.setHeading(0);
-  //initial code:
-  chassis.drive(6);  
-  // Kevin's testing code for left auton (10/12/2026)
-  chassis.driveWithVoltage(6, 6);
-  wait(1000, msec);
-  // rotate slowly for 1 second
-  chassis.driveWithVoltage(-4, 4);
-  wait(1000, msec);
-  chassis.stop(coast);
-
-  grabberMotor.spin(forward, 5, volt);
-  wait(1, sec);
-  grabberMotor.spin(reverse, 5, volt);
-  wait(1, sec);
-  grabberMotor.stop(coast);
   // sequence of actions for left auton
 }
 
@@ -338,6 +323,12 @@ void autonTestButtonCheck()
   {
     if (autonTestMode) 
     {
+      if(controller1.ButtonX.pressing())
+      {
+        waitUntil(!controller1.ButtonX.pressing());
+        controller1.rumble(".");
+        changeDriveMode();
+      }
       if(controller1.ButtonRight.pressing())
       {
         waitUntil(!controller1.ButtonRight.pressing());
@@ -347,7 +338,16 @@ void autonTestButtonCheck()
         saveConfigParameters();
         showAutonMenu();
       }
-      if(controller1.ButtonA.pressing() && drive_mode >=0)
+      if(controller1.ButtonLeft.pressing())
+      {
+        waitUntil(!controller1.ButtonLeft.pressing());
+        controller1.rumble(".");
+        // Scroll through the auton menu.
+        changeTeamColor();
+        saveConfigParameters();
+        showAutonMenu();
+      }
+      if(controller1.ButtonA.pressing())
       {
         waitUntil(!controller1.ButtonA.pressing());
         // Run the selected autonomous routine for testing and display the run time.
@@ -368,7 +368,7 @@ void autonTestButtonCheck()
 void skill()
 {
   // sequence of actions for skill mode
-  while(controller1.ButtonX.pressing() || endGameTimerEnabled)  // if button X is held down, run the next skill step
+  while(controller1.ButtonX.pressing())  // if button X is held down, run the next skill step
   {
     run_skill_step();
     skillStep++;
@@ -379,10 +379,9 @@ void skill()
 // Check the controller button press for autonomous testing.
 void registerAutonTestButtons()
 {
-  if (!endGameTimerEnabled && skillStep > 0)
+  if (!endGameTimerEnabled)
   {
     thread autonTestButtonThread = thread(autonTestButtonCheck);
-    controller1.ButtonX.pressed(changeDriveMode);
   }
   if (skillStep > 0)
   {

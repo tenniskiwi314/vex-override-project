@@ -99,7 +99,7 @@ Navigate to `src/robot-config.cpp` and locate the 'button control' section.
 ### Step 2: Complete code for the button functions
 
 ```cpp
-void buttonL1Action()
+void buttonL1Function()
 {
   // toggle grabber motor
 }
