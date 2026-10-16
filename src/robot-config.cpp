@@ -227,10 +227,10 @@ bool autoGrab()
 // ------------------------------------------------------------------------
 
 void buttonUpFunction() {
-  moveLift(20);
+  moveLift(80);
   wait(600, msec);
   while(controller1.ButtonUp.pressing()) { 
-    moveLift(30);
+    moveLift(80);
     wait(20, msec); 
   }
   moveLift(0);
@@ -276,14 +276,26 @@ void buttonRightFunction() {
   grabberMotor.stop(coast);
 }
 
+void buttonL1Function() {
+  
+    grabberMotor.spin(forward, 10, volt);
+    wait(500, msec);
+    grabberMotor.stop(coast);
+  
+    while(controller1.ButtonL1.pressing()) {
+      wait(20, msec);
+    }
 
+  grabberMotor.spin(reverse, 10, volt);
+  wait(500, msec);
+  grabberMotor.stop(coast);
+}
 
 void buttonR1Function() {
   while (controller1.ButtonR1.pressing()) {
     rollerMotor.spin(reverse, 10, volt);
-    wait(30, msec);
   }
-  rollerMotor.stop(hold);
+  rollerMotor.stop(coast); 
 }
 
 // toggle drivetrain brake, e.g. when protecting the roller
@@ -305,7 +317,7 @@ void setupButtonMapping() {
   controller1.ButtonDown.pressed(buttonDownFunction);
   controller1.ButtonLeft.pressed(buttonLeftFunction);
   controller1.ButtonRight.pressed(buttonRightFunction);
-
+  controller1.ButtonL1.pressed(buttonL1Function);
   controller1.ButtonA.pressed(quickTestCode);
   controller1.ButtonB.pressed(buttonBFunction);
   
@@ -333,8 +345,7 @@ void quickTestCode()
   printControllerScreen("Running test...");
   // Write test code here:
 
-  chassis.drive(6);
-
+  chassis.setHeading(0);
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];
   sprintf(timeMsg, "run  time: %.1f", t2-t1);

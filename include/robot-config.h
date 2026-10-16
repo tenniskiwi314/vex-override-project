@@ -48,10 +48,10 @@ const bool LEFT_RIGHT_STICK_SWAP = false;
 const int INERTIAL_PORT = 1;  //use unused negative port number to skip inertial sensor setup
 const int INERTIAL_SCALE = 360;
 
-const int GRABBER_PORT = -21;  // use unused port for the grabber motor
-const int LIFT_PORT1 = -21;  // use unused port for the first lift motor 
+const int GRABBER_PORT = -9;  // use unused port for the grabber motor
+const int LIFT_PORT1 = -11;  // use unused port for the first lift motor 
 const int LIFT_PORT2 = -21;  // use unused port for the second lift motor
-const int ROLLER_PORT = -21;  // use unused port for the roller motor
+const int ROLLER_PORT = 2;  // use unused port for the roller motor
 
 const int NUMBER_OF_MOTORS = 4;
 const float LIFT_MAX_HEIGHT = 0;  // the max lift position is not set
