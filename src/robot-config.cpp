@@ -275,7 +275,7 @@ void buttonRightFunction() {
   }
   grabberMotor.stop(coast);
 }
-
+//Kevin's function for grabber motor 10/15/26
 void buttonL1Function() {
   
     grabberMotor.spin(forward, 10, volt);
@@ -290,7 +290,7 @@ void buttonL1Function() {
   wait(500, msec);
   grabberMotor.stop(coast);
 }
-
+//Kevin's function for roller motor 10/15/26
 void buttonR1Function() {
   while (controller1.ButtonR1.pressing()) {
     rollerMotor.spin(reverse, 10, volt);
