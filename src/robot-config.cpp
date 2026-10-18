@@ -59,36 +59,39 @@ void usercontrol(void) {
 
   // This loop runs forever, controlling the robot during the driver control period.
   while (1) {
-    float speedLimit = speedLimitWithHeight();
+    float throttleLimit = speedLimitWithHeight();
+    float turnLimit = sqrt(throttleLimit)*10;
     switch (drive_mode) {  
     case 1: // double arcade
-      throttle = threshold(controller1.Axis2.position(), -speedLimit, speedLimit);
-      turn = controller1.Axis4.position();
+      throttle = threshold(controller1.Axis2.position(), -throttleLimit, throttleLimit);
+      turn = threshold(controller1.Axis4.position(), -turnLimit, turnLimit);
       if (LEFT_RIGHT_STICK_SWAP) {
-        throttle = threshold(controller1.Axis3.position(), -speedLimit, speedLimit);
-        turn = threshold(controller1.Axis1.position(), -sqrt(speedLimit)*10, sqrt(speedLimit)*10);
+        throttle = threshold(controller1.Axis3.position(), -throttleLimit, throttleLimit);
+        turn = threshold(controller1.Axis1.position(), -turnLimit, turnLimit);
       }
       chassis.controlArcade(throttle, turn);
       break;
     case 0: // single arcade
-      throttle = threshold(controller1.Axis2.position(), -speedLimit, speedLimit);
-      turn = controller1.Axis1.position();
+      throttle = threshold(controller1.Axis2.position(), -throttleLimit, throttleLimit);
+      turn = threshold(controller1.Axis1.position(), -turnLimit, turnLimit);
       if (LEFT_RIGHT_STICK_SWAP) {
-        throttle = threshold(controller1.Axis3.position(), -speedLimit, speedLimit);
-        turn = controller1.Axis4.position();
+        throttle = threshold(controller1.Axis3.position(), -throttleLimit, throttleLimit);
+        turn = threshold(controller1.Axis4.position(), -turnLimit, turnLimit);
       }
       chassis.controlArcade(throttle, turn);
       break;
     case 2: // tank drive
-      leftSpeed = threshold(controller1.Axis3.position(), -speedLimit, speedLimit);
-      rightSpeed = threshold(controller1.Axis2.position(), -speedLimit, speedLimit);
+      leftSpeed = threshold(controller1.Axis3.position(), -throttleLimit, throttleLimit);
+      rightSpeed = threshold(controller1.Axis2.position(), -throttleLimit, throttleLimit);
       chassis.controlTank(leftSpeed, rightSpeed);    
       break;
     }
     
-    Brain.Screen.setCursor(10, 1);
-    Brain.Screen.print("Heading : %.1f", chassis.getHeading());
-
+    if(!endGameTimerEnabled){
+      Brain.Screen.setCursor(10, 1);
+      Brain.Screen.print("Heading : %.1f    ", chassis.getHeading());
+    }
+    
     // This wait prevents the loop from using too much CPU time.
     wait(20, msec);
   } 
@@ -99,13 +102,13 @@ void usercontrol(void) {
 //        Other subsystems: motors, & sensors
 // ------------------------------------------------------------------------
 motor grabberMotor = motor(numberToPort(GRABBER_PORT), ratio18_1, port_reverse(GRABBER_PORT));
-motor liftMotor1 = motor(numberToPort(LIFT_PORT1), ratio36_1, port_reverse(LIFT_PORT1));
-motor liftMotor2 = motor(numberToPort(LIFT_PORT2), ratio36_1, port_reverse(LIFT_PORT2));
+motor liftMotor1 = motor(numberToPort(LIFT_PORT1), ratio18_1, port_reverse(LIFT_PORT1));
+motor liftMotor2 = motor(numberToPort(LIFT_PORT2), ratio18_1, port_reverse(LIFT_PORT2));
 motor_group liftMotor = motor_group(liftMotor1, liftMotor2);
 rotation liftSensor = rotation(numberToPort(LIFT_SENSOR_PORT), port_reverse(LIFT_SENSOR_PORT));
 
 motor rollerMotor = motor(numberToPort(ROLLER_PORT), ratio18_1, port_reverse(ROLLER_PORT));
-
+optical rollerOptical = optical(numberToPort(OPTICAL_PORT));
 
 // ------------------------------------------------------------------------
 //        initialization functions
@@ -129,26 +132,18 @@ void setChassisDefaults()
   chassis.setArcadeConstants(0.5, 0.5, 0.95);
  // chassis.setDistanceSensors(1, distance(numberToPort(FRONT_DISTANCE_PORT)));
  // chassis.setDistanceSensors(3, distance(numberToPort(BACK_DISTANCE_PORT)));
- if (liftSensor.installed()) {
-   liftSensor.setPosition(0, degrees);
- }
+  liftMotor.setPosition(0, degrees);
+  if (liftSensor.installed()) {
+    liftSensor.setPosition(0, degrees);
+  }
 }
 
 // ------------------------------------------------------------------------
 //        Helper functions definition
 // ------------------------------------------------------------------------
 
-void moveLift(int velocityPercent)
-{
-  liftMotor.spin(forward, velocityPercent, percent);
-  if (velocityPercent == 0) 
-  {
-    liftMotor.stop(hold);
-  }
-}
-
-float getLiftPosition(bool printPosition = false) {
-  float p = liftMotor.position(degrees);
+float getLiftPosition(bool printPosition) {
+  float p = liftMotor.position(degrees); //If no rotation sensor use motor encoder
   if ( liftSensor.installed()){
     p = liftSensor.position(degrees);
   }
@@ -166,143 +161,91 @@ float speedLimitWithHeight()
 
   int height = getLiftPosition();
   if (height <= LIFT_MAX_HEIGHT) {
-    return 100.0 - (height * 50.0 / LIFT_MAX_HEIGHT);
+    return 100.0 - (height * (100-SPEED_LIMIT)/ LIFT_MAX_HEIGHT);
   } else {
-    return 50;
+    return SPEED_LIMIT;
   } 
 }
 
-bool liftWithinLimit()
+bool liftAtMax()
 {
-  if (LIFT_MAX_HEIGHT <= 0) return true; // if no max lift position 
+  if (LIFT_MAX_HEIGHT <= 0) return false; // if no max lift position 
   float height = getLiftPosition();
 
   if (height > LIFT_MAX_HEIGHT) {
     liftMotor.stop(hold);
-    return false;
-  }
-  return true;
-}
-
-bool liftAboveGround()
-{
-  if (LIFT_MAX_HEIGHT <= 0) return true; // no ground position 
-  float height = getLiftPosition();
-  if (height > 0) {
     return true;
   }
-  liftMotor.stop(coast);
   return false;
 }
 
-void raiseLiftABit()
+bool liftAtMin()
 {
-  moveLift(30);
-  wait(150, msec);
-  moveLift(0);
+  if (LIFT_MAX_HEIGHT <= 0) return false; // no ground position 
+  float height = getLiftPosition();
+  if (height > 0) {
+    return false;
+  }
+  liftMotor.stop(coast);
+  return true;
 }
 
-void dropLiftoGround()
+void raiseLiftAboveGround()
 {
-  while(liftAboveGround()){
+    while(getLiftPosition() < 100){
+      liftMotor.spin(forward, 12, volt);
+      wait(30, msec);
+    }
+    liftMotor.stop(hold);
+}
+
+void dropLiftToGround()
+{
+  while(!liftAtMin()){
     liftMotor.spin(forward, -8, volt); // let the weight pull the lift down
     wait(30, msec);
   } 
 }
 
-bool autoGrab()
-{
-//  return false;
-  float c = grabberMotor.current(amp);
-  if (c > 2.5) // intake motor is stalled means cup is grabbed, stop intake and hold cup
-  {
-    return true;
-  }
-  return false;
-}
-
-
 // ------------------------------------------------------------------------
 //              Button controls
 // ------------------------------------------------------------------------
 
+// todo: lift control
 void buttonUpFunction() {
-  moveLift(80);
-  wait(600, msec);
-  while(controller1.ButtonUp.pressing()) { 
-    moveLift(80);
-    wait(20, msec); 
-  }
-  moveLift(0);
-  getLiftPosition(true);
 }
 
 void buttonDownFunction() {
-  if (controller1.ButtonR2.pressing())  // reset lift sensor
-  {
-    controller1.rumble("-");
-    printControllerScreen("Resetting lift sensor");
-    liftSensor.setPosition(0, degrees); 
-  }
-
-  moveLift(-20);
-  wait(600, msec);
-  while(controller1.ButtonDown.pressing()) { 
-    moveLift(-30);
-    wait(20, msec); 
-  }
-  moveLift(0);
-  getLiftPosition(true);
 }
 
-void buttonLeftFunction() {
-  // Implement left button action here
-  grabberMotor.spin(forward, 5, volt);
-  wait(600, msec);
-  while(controller1.ButtonLeft.pressing()) { 
-    grabberMotor.spin(forward, 10, volt);
-    wait(20, msec); 
-  }
-  grabberMotor.stop(coast);
-}
 
-void buttonRightFunction() {
-  grabberMotor.spin(reverse, 5, volt);
-  wait(600, msec);
-  while(controller1.ButtonRight.pressing()) { 
-    grabberMotor.spin(reverse, 10, volt);
-    wait(20, msec); 
-  }
-  grabberMotor.stop(coast);
-}
 //Kevin's function for grabber motor 10/15/26
 void buttonL1Function() {
-  
-    grabberMotor.spin(forward, 10, volt);
-    wait(500, msec);
-    grabberMotor.stop(coast);
-  
-    while(controller1.ButtonL1.pressing()) {
-      wait(20, msec);
-    }
-
+  grabberMotor.spin(forward, 10, volt);
+  wait(500, msec);
+  grabberMotor.stop(coast);
+  while(controller1.ButtonL1.pressing()) {
+     wait(20, msec);
+  }
   grabberMotor.spin(reverse, 10, volt);
   wait(500, msec);
   grabberMotor.stop(coast);
 }
+
 //Kevin's function for roller motor 10/15/26
 void buttonR1Function() {
-  while (controller1.ButtonR1.pressing()) {
-    rollerMotor.spin(reverse, 10, volt);
-  }
-  rollerMotor.stop(coast); 
+ while (controller1.ButtonR1.pressing()) {
+   rollerMotor.spin(forward, 12, volt);
+ }
+ rollerMotor.stop(coast);
 }
+
 
 // toggle drivetrain brake, e.g. when protecting the roller
 bool drivetrainBrakeOn = false;
 void buttonBFunction (){
   controller1.rumble("-");
-  printControllerScreen("Toggling brake");
+  printControllerScreen("Toggle brake");
   drivetrainBrakeOn = !drivetrainBrakeOn;
   if (drivetrainBrakeOn == true){
     chassis.stop(hold);
@@ -315,13 +258,13 @@ void buttonBFunction (){
 void setupButtonMapping() {
   controller1.ButtonUp.pressed(buttonUpFunction);
   controller1.ButtonDown.pressed(buttonDownFunction);
-  controller1.ButtonLeft.pressed(buttonLeftFunction);
-  controller1.ButtonRight.pressed(buttonRightFunction);
+
   controller1.ButtonL1.pressed(buttonL1Function);
+  controller1.ButtonR1.pressed(buttonR1Function);
+
   controller1.ButtonA.pressed(quickTestCode);
   controller1.ButtonB.pressed(buttonBFunction);
-  
-  controller1.ButtonR1.pressed(buttonR1Function);
+
 }
 
 
@@ -346,6 +289,9 @@ void quickTestCode()
   // Write test code here:
 
   chassis.setHeading(0);
+
+
+
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];
   sprintf(timeMsg, "run  time: %.1f", t2-t1);

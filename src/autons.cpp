@@ -10,6 +10,7 @@
 //             Auton Functions
 // ----------------------------------------------------------------------------
 
+// todo: add auton functions here
 void left_auton(){
   chassis.setHeading(0);
   // sequence of actions for left auton
@@ -148,12 +149,24 @@ void showAutonMenu() {
     }
 
     Brain.Screen.setCursor(5, 1);
-    Brain.Screen.print("Heading : %.1f", chassis.getHeading());
+    Brain.Screen.print("heading : %.1f", chassis.getHeading());
 
     // This wait prevents the loop from using too much CPU time.
     wait(50, msec);
   }
   Brain.Screen.setFont(mono20);
+  if (teamColor == 1) 
+  {
+    Brain.Screen.clearScreen(color::red);
+  }
+  else if (teamColor == 2) 
+  {
+    Brain.Screen.clearScreen(color::blue);
+  }
+  else
+  {
+    Brain.Screen.clearScreen(color::black);
+  }
 }
 
 // This function is a thread that runs in the background to remind the driver of the end game.
@@ -193,13 +206,21 @@ bool setupinertialSensor() {
     return false;  
   }
 
-  chassis.inertialSensor.calibrate(3);
+  chassis.inertialSensor.calibrate();
+  
+  int elapsed = 0;
   // Waits until the inertial sensor is calibrated.
   while (chassis.inertialSensor.isCalibrating()) {
     wait(100, msec);
+    elapsed += 100;
+  } 
+
+  if (elapsed < 2000) {
+    printControllerScreen("inertial failure", true);
+    return false;  
   }
+
   // Rumbles the controller to indicate that the inertial sensor is calibrated.
-  printControllerScreen("gyro calibrated");
   controller1.rumble(".");
 
   chassis.setGyroScale(INERTIAL_SCALE);
@@ -288,7 +309,7 @@ void pre_auton() {
   // Load parameters from the SD card.
   if (drive_mode >= 0) loadConfigParameters();
   // Shows the autonomous menu.
-  if(inertialSensorSetupSuccess && motorsSetupSuccess) 
+  if(motorsSetupSuccess && inertialSensorSetupSuccess) 
   {
     showAutonMenu();
     registerAutonTestButtons();
@@ -301,8 +322,10 @@ void pre_auton() {
 
 void autonTestButtonCheck()
 {
-    // Enter auton test mode if Button A is held down within 5 seconds of driver control.
-  while (Brain.Timer.time(sec) < 5 && !autonTestMode) {
+  Brain.Timer.clear();
+
+    // Enter auton test mode if Button A is held down within 3 seconds of driver control.
+  while (Brain.Timer.time(sec) < 3 && !autonTestMode) {
     if (controller1.ButtonA.pressing())
     {
       wait(500, msec);
@@ -342,7 +365,7 @@ void autonTestButtonCheck()
       {
         waitUntil(!controller1.ButtonLeft.pressing());
         controller1.rumble(".");
-        // Scroll through the auton menu.
+        // Change team color
         changeTeamColor();
         saveConfigParameters();
         showAutonMenu();
