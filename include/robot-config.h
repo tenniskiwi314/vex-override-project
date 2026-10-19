@@ -7,11 +7,11 @@ using namespace vex;
 #define UNUSED_PORT -21
 
 #ifdef practice_bot
-const int LEFT_PORT1 = 1;
-const int LEFT_PORT2 = -2;
+const int LEFT_PORT1 = 20;
+const int LEFT_PORT2 = -10;
 const int LEFT_PORT3 = UNUSED_PORT;
-const int RIGHT_PORT1 = 9;
-const int RIGHT_PORT2 = -10;
+const int RIGHT_PORT1 = -2;
+const int RIGHT_PORT2 = 9;
 const int RIGHT_PORT3 = UNUSED_PORT;
 const float WHEEL_DIAMETER = 2.75;
 const float GEAR_RATIO = 0.75;
@@ -20,15 +20,15 @@ const int DRIVE_MODE = 0; //1 = double arcade, 2 = tank, 0 = single arcade
 const bool LEFT_RIGHT_STICK_SWAP = false;
 const int SPEED_LIMIT = 100; // drive speed limit when lift is at max height, set to 100 if no speed reduction is needed
 
-const int INERTIAL_PORT = 8;
+const int INERTIAL_PORT = 14;
 const int INERTIAL_SCALE = 360;
 
-const int GRABBER_PORT = -3;
+const int GRABBER_PORT = -12;
 
-const int LIFT_PORT1 = 4;
+const int LIFT_PORT1 = 18;
 const int LIFT_PORT2 = UNUSED_PORT;
-const int LIFT_SENSOR_PORT = 5;  
-const float LIFT_MAX_HEIGHT = 600; // the max lift position, Set to 0 if lift position can not be correctly measured.
+const int LIFT_SENSOR_PORT = 13;  
+const float LIFT_MAX_HEIGHT = 700; // the max lift position, Set to 0 if lift position can not be correctly measured.
 
 const int ROLLER_PORT = 11;  
 const int OPTICAL_PORT = UNUSED_PORT;  
