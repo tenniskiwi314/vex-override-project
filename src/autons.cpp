@@ -215,7 +215,7 @@ bool setupinertialSensor() {
     elapsed += 100;
   } 
 
-  if (elapsed < 2000) {
+  if (elapsed < 1000) {
     printControllerScreen("inertial failure", true);
     return false;  
   }

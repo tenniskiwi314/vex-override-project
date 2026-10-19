@@ -30,7 +30,7 @@ const int LIFT_PORT2 = UNUSED_PORT;
 const int LIFT_SENSOR_PORT = 13;  
 const float LIFT_MAX_HEIGHT = 700; // the max lift position, Set to 0 if lift position can not be correctly measured.
 
-const int ROLLER_PORT = 11;  
+const int ROLLER_PORT = 1;  
 const int OPTICAL_PORT = UNUSED_PORT;  
 
 const int NUMBER_OF_MOTORS = 7;

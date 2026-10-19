@@ -229,7 +229,7 @@ void buttonL1Function() {
   }
   grabberMotor.spin(reverse, 8, volt);
   wait(500, msec);
-  grabberMotor.stop(coast);
+  grabberMotor.stop(hold);
 }
 
 //Kevin's function for roller motor 10/15/26
@@ -238,6 +238,19 @@ void buttonR1Function() {
    rollerMotor.spin(forward, 12, volt);
  }
  rollerMotor.stop(coast);
+}
+
+//Kevin's function for lift motor 10/19/26
+void buttonL2Function() {
+  while (controller1.ButtonL2.pressing() && !liftAtMax() && !controller1.ButtonR2.pressing()) {
+    liftMotor.spin(forward, 12, volt);
+    wait(20, msec);
+  }
+  while (controller1.ButtonL2.pressing() && !liftAtMin() && controller1.ButtonR2.pressing()) {
+    liftMotor.spin(reverse, 12, volt);
+    wait(20, msec);
+  }
+  liftMotor.stop(hold);
 }
 
 
@@ -265,6 +278,7 @@ void setupButtonMapping() {
   controller1.ButtonA.pressed(quickTestCode);
   controller1.ButtonB.pressed(buttonBFunction);
 
+  controller1.ButtonL2.pressed(buttonL2Function);
 }
 
 
@@ -289,6 +303,7 @@ void quickTestCode()
   // Write test code here:
 
   chassis.setHeading(0);
+
 
 
 
