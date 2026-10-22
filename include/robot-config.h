@@ -2,11 +2,11 @@
 using namespace vex;
 
 // you can define multiple robots with different motor configs
-#define practice_bot 
+#define teamA_practice_bot 
 
 #define UNUSED_PORT -21
 
-#ifdef practice_bot
+#ifdef teamA_practice_bot
 const int LEFT_PORT1 = 20;
 const int LEFT_PORT2 = -10;
 const int LEFT_PORT3 = UNUSED_PORT;
@@ -37,7 +37,7 @@ const int NUMBER_OF_MOTORS = 7;
 
 #endif
 
-#ifdef one_motor_test
+#ifdef subsystem_test
 const int LEFT_PORT1 = UNUSED_PORT;
 const int LEFT_PORT2 = UNUSED_PORT;
 const int LEFT_PORT3 = UNUSED_PORT;  // use unused port for the third left motor
@@ -54,14 +54,14 @@ const int SPEED_LIMIT = 100; // drive speed limit when lift is at max height, se
 const int INERTIAL_PORT = UNUSED_PORT;  //use unused negative port number to skip inertial sensor setup
 const int INERTIAL_SCALE = 360;
 
-const int GRABBER_PORT = UNUSED_PORT;  // use unused port for the grabber motor
+const int GRABBER_PORT = -1;  // use unused port for the grabber motor
 
-const int LIFT_PORT1 = 1;
-const int LIFT_PORT2 = -2;  // use unused port for the second lift motor
+const int LIFT_PORT1 = 3;
+const int LIFT_PORT2 = -4;  // use unused port for the second lift motor
 const int LIFT_SENSOR_PORT = UNUSED_PORT;  // use unused port for the lift rotation sensor
 const float LIFT_MAX_HEIGHT = 0;  // the max lift position is not set
 
-const int ROLLER_PORT = UNUSED_PORT;  
+const int ROLLER_PORT = -2;  
 const int OPTICAL_PORT = UNUSED_PORT;  // use unused port for the optical sensor
 
 const int NUMBER_OF_MOTORS = 2;

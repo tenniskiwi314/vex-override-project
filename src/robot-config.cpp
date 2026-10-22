@@ -211,24 +211,40 @@ void dropLiftToGround()
 //              Button controls
 // ------------------------------------------------------------------------
 
-// todo: lift control
 void buttonUpFunction() {
+  liftMotor.spin(forward, 8, volt);
+  while(controller1.ButtonUp.pressing()) {
+     wait(20, msec);
+  }
+  liftMotor.stop(hold);
+  getLiftPosition(true);
 }
 
 void buttonDownFunction() {
+  liftMotor.spin(reverse, 4, volt);
+  while(controller1.ButtonDown.pressing()) {
+     wait(20, msec);
+  }
+  liftMotor.stop(hold);
+  getLiftPosition(true);
 }
 
 
 //Kevin's function for grabber motor 10/15/26
 void buttonL1Function() {
   grabberMotor.spin(forward, 8, volt);
-  wait(500, msec);
+  wait(300, msec);
   grabberMotor.stop(coast);
+
+  wait(300, msec);  
+  // kevin to read: what's the purpose of this if statement? 
+  if (!controller1.ButtonL1.pressing()) return;  
+  
   while(controller1.ButtonL1.pressing()) {
      wait(20, msec);
   }
   grabberMotor.spin(reverse, 8, volt);
-  wait(500, msec);
+  wait(400, msec);
   grabberMotor.stop(hold);
 }
 
@@ -247,7 +263,7 @@ void buttonL2Function() {
     wait(20, msec);
   }
   while (controller1.ButtonL2.pressing() && !liftAtMin() && controller1.ButtonR2.pressing()) {
-    liftMotor.spin(reverse, 12, volt);
+    liftMotor.spin(reverse, 6, volt);  // use lower voltage because weight pulls lift down
     wait(20, msec);
   }
   liftMotor.stop(hold);
@@ -279,6 +295,7 @@ void setupButtonMapping() {
   controller1.ButtonB.pressed(buttonBFunction);
 
   controller1.ButtonL2.pressed(buttonL2Function);
+  
 }
 
 
