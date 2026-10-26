@@ -1,8 +1,8 @@
 #pragma once
 #include "rgb-template/drivetrain.h"
 
-void left_auton();
-void right_auton();
+void front_auton();
+void side_auton();
 void skill();
 
 extern int skillStep;

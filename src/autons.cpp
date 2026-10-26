@@ -11,20 +11,44 @@
 // ----------------------------------------------------------------------------
 
 // todo: add auton functions here
-void left_auton(){
+void front_auton(){
   chassis.setHeading(0);
-  // sequence of actions for left auton
+//  chassis.drive(24., 3);
+//turn toggle
+  grabberMotor.spinFor(reverse, .5, seconds);
+  grabberMotor.stop(hold);
+  liftMotor.spinFor(forward, 300, degrees);
+  rollerMotor.setVelocity(40, percent);
+  rollerMotor.spinFor(1.5, sec);
+  chassis.drive(15, 4);
+  chassis.turn(90, 6);
+  chassis.drive(14, 4);
+  grabberMotor.spinFor(forward, .5, seconds);
+  wait(1, seconds);
+  chassis.drive(-12, 3);
 }
 
-void right_auton(){ 
-  chassis.setHeading(-90);
-  // sequence of actions for right auton
+void side_auton(){ 
+  chassis.setHeading(0);
+//  chassis.drive(24., 3);
+//turn toggle
+  grabberMotor.spinFor(reverse, .5, seconds);
+  grabberMotor.stop(hold);
+  liftMotor.spinFor(forward, 300, degrees);
+  rollerMotor.setVelocity(40, percent);
+  rollerMotor.spinFor(1.5, sec);
+  chassis.drive(15, 4);
+  chassis.turn(-90, 6);
+  chassis.drive(14, 4);
+  grabberMotor.spinFor(forward, .5, seconds);
+  wait(1, seconds);
+  chassis.drive(-12, 3);
 }
 
 // The names of the autonomous routines to be displayed in the menu.
 char const * autonMenuText[] = {
-  "Left",
-  "Right"
+  "Front",
+  "Side"
 };
 
 
@@ -32,10 +56,10 @@ char const * autonMenuText[] = {
 void runAutonItem() {
   switch (currentAutonSelection) {
   case 0:
-    left_auton();
+    front_auton();
     break;  
   case 1:
-    right_auton();
+    side_auton();
     break;  
   }
 }

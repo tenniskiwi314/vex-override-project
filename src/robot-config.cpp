@@ -320,6 +320,21 @@ void quickTestCode()
   // Write test code here:
 
   chassis.setHeading(0);
+//  chassis.drive(24., 3);
+//turn toggle
+  grabberMotor.spinFor(reverse, .5, seconds);
+  grabberMotor.stop(hold);
+  liftMotor.spinFor(forward, 300, degrees);
+  rollerMotor.setVelocity(40, percent);
+  rollerMotor.spinFor(1.5, sec);
+  chassis.drive(15, 4);
+  chassis.turn(-90, 6);
+  chassis.drive(14, 4);
+  grabberMotor.spinFor(forward, .5, seconds);
+  wait(1, seconds);
+  chassis.drive(-12, 3);
+
+
 
 
 
