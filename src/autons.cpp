@@ -13,7 +13,6 @@
 // todo: add auton functions here
 void front_auton(){
   chassis.setHeading(0);
-//  chassis.drive(24., 3);
 //turn toggle
   grabberMotor.spinFor(reverse, .5, seconds);
   grabberMotor.stop(hold);
@@ -30,7 +29,6 @@ void front_auton(){
 
 void side_auton(){ 
   chassis.setHeading(0);
-//  chassis.drive(24., 3);
 //turn toggle
   grabberMotor.spinFor(reverse, .5, seconds);
   grabberMotor.stop(hold);
@@ -48,10 +46,11 @@ void side_auton(){
 // The names of the autonomous routines to be displayed in the menu.
 char const * autonMenuText[] = {
   "Front",
-  "Side"
+  "Side",
+  "No Auton"
 };
 
-
+int currentAutonSelection = 1;        // Current auton selection.
 // Runs the selected autonomous routine.
 void runAutonItem() {
   switch (currentAutonSelection) {
@@ -60,7 +59,10 @@ void runAutonItem() {
     break;  
   case 1:
     side_auton();
-    break;  
+    break; 
+  case 2:
+    // do nothing
+    break;   
   }
 }
 
@@ -80,7 +82,6 @@ void run_skill_step() {
 //                 Menu display and other system functions
 // ----------------------------------------------------------------------------
 int autonNum;                         // Total number of autons, automatically calculated based on the size of the autonMenuText array.
-int currentAutonSelection = 0;        // Current auton selection.
 bool autonTestMode = false;           // Indicates if in test mode.
 bool exitAutonMenu = false;           // Flag to exit the autonomous menu.
 bool endGameTimerEnabled = false;      // Flag to indicate if endgame timer is enabled.
