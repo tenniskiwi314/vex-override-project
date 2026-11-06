@@ -2,9 +2,40 @@
 using namespace vex;
 
 // you can define multiple robots with different motor configs
-#define teamA_practice_bot 
+#define teamA_competition_bot 
 
 #define UNUSED_PORT -21
+
+#ifdef teamA_competition_bot
+const int LEFT_PORT1 = -10;
+const int LEFT_PORT2 = 9;
+const int LEFT_PORT3 = UNUSED_PORT;
+const int RIGHT_PORT1 = 8;
+const int RIGHT_PORT2 = -7;
+const int RIGHT_PORT3 = UNUSED_PORT;
+const float WHEEL_DIAMETER = 2.75;
+const float GEAR_RATIO = 0.75;
+
+const int DRIVE_MODE = 0; //1 = double arcade, 2 = tank, 0 = single arcade
+const bool LEFT_RIGHT_STICK_SWAP = false;
+const int SPEED_LIMIT = 100; // drive speed limit when lift is at max height, set to 100 if no speed reduction is needed
+
+const int INERTIAL_PORT = 4;
+const int INERTIAL_SCALE = 360;
+
+const int GRABBER_PORT = -12;
+
+const int LIFT_PORT1 = -6;
+const int LIFT_PORT2 = 5;
+const int LIFT_SENSOR_PORT = 13;  
+const float LIFT_MAX_HEIGHT = 940; // the max lift position, Set to 0 if lift position can not be correctly measured.
+
+const int ROLLER_PORT = 1;  
+const int OPTICAL_PORT = UNUSED_PORT;  
+
+const int NUMBER_OF_MOTORS = 7;
+
+#endif
 
 #ifdef teamA_practice_bot
 const int LEFT_PORT1 = 20;
@@ -36,6 +67,8 @@ const int OPTICAL_PORT = UNUSED_PORT;
 const int NUMBER_OF_MOTORS = 7;
 
 #endif
+
+
 
 #ifdef subsystem_test
 const int LEFT_PORT1 = UNUSED_PORT;

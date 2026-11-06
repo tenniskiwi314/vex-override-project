@@ -16,7 +16,7 @@ void front_auton(){
 //turn toggle
   grabberMotor.spinFor(reverse, .5, seconds);
   grabberMotor.stop(hold);
-  liftMotor.spinFor(forward, 300, degrees);
+  liftMotor.spinFor(forward, 150, degrees);
   rollerMotor.setVelocity(40, percent);
   rollerMotor.spinFor(1.5, sec);
   chassis.drive(15, 4);
@@ -32,7 +32,7 @@ void side_auton(){
 //turn toggle
   grabberMotor.spinFor(reverse, .5, seconds);
   grabberMotor.stop(hold);
-  liftMotor.spinFor(forward, 300, degrees);
+  liftMotor.spinFor(forward, 150, degrees);
   rollerMotor.setVelocity(40, percent);
   rollerMotor.spinFor(1.5, sec);
   chassis.drive(15, 4);
