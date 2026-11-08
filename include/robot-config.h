@@ -16,24 +16,26 @@ const int RIGHT_PORT3 = UNUSED_PORT;
 const float WHEEL_DIAMETER = 2.75;
 const float GEAR_RATIO = 0.75;
 
-const int DRIVE_MODE = 0; //1 = double arcade, 2 = tank, 0 = single arcade
+const int DRIVE_MODE = 1; //1 = double arcade, 2 = tank, 0 = single arcade
 const bool LEFT_RIGHT_STICK_SWAP = false;
-const int SPEED_LIMIT = 100; // drive speed limit when lift is at max height, set to 100 if no speed reduction is needed
+const int TOP_SPEED = 100; // overall drive speed limit, set to 100 if no speed limit
+const int SPEED_HEIGHT_LIMIT = 60; // drive speed limit when lift is at max height, set to 100 if no speed reduction is needed
 
 const int INERTIAL_PORT = 4;
 const int INERTIAL_SCALE = 360;
 
-const int GRABBER_PORT = -12;
+const int GRABBER_PORT = -13;
+const int GRABBER_SENSOR_PORT = 15;
 
 const int LIFT_PORT1 = -6;
 const int LIFT_PORT2 = 5;
-const int LIFT_SENSOR_PORT = 13;  
+const int LIFT_SENSOR_PORT = -2;  
 const float LIFT_MAX_HEIGHT = 940; // the max lift position, Set to 0 if lift position can not be correctly measured.
 
-const int ROLLER_PORT = 1;  
+const int ROLLER_PORT = 11;  
 const int OPTICAL_PORT = UNUSED_PORT;  
 
-const int NUMBER_OF_MOTORS = 7;
+const int NUMBER_OF_MOTORS = 8;
 
 #endif
 
@@ -47,14 +49,16 @@ const int RIGHT_PORT3 = UNUSED_PORT;
 const float WHEEL_DIAMETER = 2.75;
 const float GEAR_RATIO = 0.75;
 
-const int DRIVE_MODE = 0; //1 = double arcade, 2 = tank, 0 = single arcade
+const int DRIVE_MODE = 1; //1 = double arcade, 2 = tank, 0 = single arcade
 const bool LEFT_RIGHT_STICK_SWAP = false;
-const int SPEED_LIMIT = 100; // drive speed limit when lift is at max height, set to 100 if no speed reduction is needed
+int TOP_SPEED = 75; // overall drive speed limit, set to 100 if no speed limit
+const int SPEED_HEIGHT_LIMIT = 50; // drive speed limit when lift is at max height, set to 100 if no speed reduction is needed
 
-const int INERTIAL_PORT = 14;
+const int INERTIAL_PORT = UNUSED_PORT;
 const int INERTIAL_SCALE = 360;
 
 const int GRABBER_PORT = -12;
+const int GRABBER_SENSOR_PORT = UNUSED_PORT;
 
 const int LIFT_PORT1 = 18;
 const int LIFT_PORT2 = UNUSED_PORT;
@@ -82,7 +86,7 @@ const float GEAR_RATIO = 1/3.0;  // default cartiridge is 600rpm
 
 const int DRIVE_MODE = 1;  //1 = double arcade, 2 = tank
 const bool LEFT_RIGHT_STICK_SWAP = false;
-const int SPEED_LIMIT = 100; // drive speed limit when lift is at max height, set to 100 if no speed reduction is needed
+const int SPEED_HEIGHT_LIMIT = 100; // drive speed limit when lift is at max height, set to 100 if no speed reduction is needed
 
 const int INERTIAL_PORT = UNUSED_PORT;  //use unused negative port number to skip inertial sensor setup
 const int INERTIAL_SCALE = 360;

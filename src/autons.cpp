@@ -10,37 +10,23 @@
 //             Auton Functions
 // ----------------------------------------------------------------------------
 
-// todo: add auton functions here
+// todo: break down into steps and write comments
 void front_auton(){
   chassis.setHeading(0);
-//turn toggle
   grabberMotor.spinFor(reverse, .5, seconds);
   grabberMotor.stop(hold);
-  liftMotor.spinFor(forward, 150, degrees);
+  liftMotor.spinFor(forward, 100, degrees);
   rollerMotor.setVelocity(40, percent);
   rollerMotor.spinFor(1.5, sec);
-  chassis.drive(15, 4);
-  chassis.turn(90, 6);
-  chassis.drive(14, 4);
+  chassis.drive(16, 4);
+  chassis.turn(90, 8);
+  chassis.drive(16, 4);
   grabberMotor.spinFor(forward, .5, seconds);
   wait(1, seconds);
   chassis.drive(-12, 3);
 }
 
 void side_auton(){ 
-  chassis.setHeading(0);
-//turn toggle
-  grabberMotor.spinFor(reverse, .5, seconds);
-  grabberMotor.stop(hold);
-  liftMotor.spinFor(forward, 150, degrees);
-  rollerMotor.setVelocity(40, percent);
-  rollerMotor.spinFor(1.5, sec);
-  chassis.drive(15, 4);
-  chassis.turn(-90, 6);
-  chassis.drive(14, 4);
-  grabberMotor.spinFor(forward, .5, seconds);
-  wait(1, seconds);
-  chassis.drive(-12, 3);
 }
 
 // The names of the autonomous routines to be displayed in the menu.

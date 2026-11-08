@@ -60,7 +60,7 @@ void usercontrol(void) {
   // This loop runs forever, controlling the robot during the driver control period.
   while (1) {
     float throttleLimit = speedLimitWithHeight();
-    float turnLimit = sqrt(throttleLimit)*10;
+    float turnLimit = TOP_SPEED;
     switch (drive_mode) {  
     case 1: // double arcade
       throttle = threshold(controller1.Axis2.position(), -throttleLimit, throttleLimit);
@@ -102,6 +102,8 @@ void usercontrol(void) {
 //        Other subsystems: motors, & sensors
 // ------------------------------------------------------------------------
 motor grabberMotor = motor(numberToPort(GRABBER_PORT), ratio18_1, port_reverse(GRABBER_PORT));
+distance grabberSensor = distance(numberToPort(GRABBER_SENSOR_PORT));
+
 motor liftMotor1 = motor(numberToPort(LIFT_PORT1), ratio18_1, port_reverse(LIFT_PORT1));
 motor liftMotor2 = motor(numberToPort(LIFT_PORT2), ratio18_1, port_reverse(LIFT_PORT2));
 motor_group liftMotor = motor_group(liftMotor1, liftMotor2);
@@ -160,11 +162,14 @@ float speedLimitWithHeight()
   if (LIFT_MAX_HEIGHT <= 0) return 100.0; // if no speed limit based on height
 
   int height = getLiftPosition();
-  if (height <= LIFT_MAX_HEIGHT) {
-    return 100.0 - (height * (100-SPEED_LIMIT)/ LIFT_MAX_HEIGHT);
-  } else {
-    return SPEED_LIMIT;
-  } 
+  int speedPercent = 100.0 - (height * (100-SPEED_HEIGHT_LIMIT)/ LIFT_MAX_HEIGHT);
+  if (speedPercent < SPEED_HEIGHT_LIMIT) {
+    speedPercent = SPEED_HEIGHT_LIMIT;
+  }
+  if (speedPercent > TOP_SPEED) {
+    speedPercent = TOP_SPEED;
+  }
+  return speedPercent;
 }
 
 bool liftAtMax()
@@ -190,29 +195,13 @@ bool liftAtMin()
   return true;
 }
 
-void raiseLiftAboveGround()
-{
-    while(getLiftPosition() < 100){
-      liftMotor.spin(forward, 12, volt);
-      wait(30, msec);
-    }
-    liftMotor.stop(hold);
-}
-
-void dropLiftToGround()
-{
-  while(!liftAtMin()){
-    liftMotor.spin(forward, -8, volt); // let the weight pull the lift down
-    wait(30, msec);
-  } 
-}
-
 // ------------------------------------------------------------------------
 //              Button controls
 // ------------------------------------------------------------------------
 
 void buttonUpFunction() {
-  liftMotor.spin(forward, 8, volt);
+  //todo: single press to lift the lift just a bit
+  liftMotor.spin(forward, 6, volt);
   while(controller1.ButtonUp.pressing()) {
      wait(20, msec);
   }
@@ -221,29 +210,52 @@ void buttonUpFunction() {
 }
 
 void buttonDownFunction() {
+  //todo: single press to lower the lift just a bit
   liftMotor.spin(reverse, 4, volt);
   while(controller1.ButtonDown.pressing()) {
      wait(20, msec);
   }
   liftMotor.stop(hold);
+  if (liftAtMin()) {
+    liftMotor.stop(coast);
+  }
   getLiftPosition(true);
 }
 
+bool cupDetected() {
+  return false;
+  if (!grabberSensor.installed()) return false;
+  // todo: detect the cup using distance sensor
+}
+
+void autoGrab() {
+  controller1.rumble("-");
+  // todo: automatically capture the cup and pin
+}
 
 //Kevin's function for grabber motor 10/15/26
+// single press to open grabber, hold to close grabber
 void buttonL1Function() {
   grabberMotor.spin(forward, 8, volt);
-  wait(300, msec);
+  wait(200, msec);
   grabberMotor.stop(coast);
-
-  wait(300, msec);  
-  if (!controller1.ButtonL1.pressing()) return;  
+  wait(400, msec);  
+  if (!controller1.ButtonL1.pressing()) {
+    grabberMotor.stop(coast);
+    liftMotor.stop(coast);
+    return;  
+  }
   
   while(controller1.ButtonL1.pressing()) {
-     wait(20, msec);
+    if (cupDetected())
+    {
+      autoGrab();
+      return;
+    }
+    wait(20, msec);
   }
-  grabberMotor.spin(reverse, 8, volt);
-  wait(400, msec);
+  grabberMotor.setTimeout(1500, msec);
+  grabberMotor.spinFor(-75, degrees, 30, velocityUnits::pct);
   grabberMotor.stop(hold);
 }
 
@@ -262,7 +274,7 @@ void buttonL2Function() {
     wait(20, msec);
   }
   while (controller1.ButtonL2.pressing() && !liftAtMin() && controller1.ButtonR2.pressing()) {
-    liftMotor.spin(reverse, 6, volt);  // use lower voltage because weight pulls lift down
+    liftMotor.spin(reverse, 8, volt);  // use lower voltage because weight pulls lift down
     wait(20, msec);
   }
   liftMotor.stop(hold);
@@ -282,6 +294,7 @@ void buttonBFunction (){
     chassis.stop(coast);
   }
 }
+
 
 void setupButtonMapping() {
   controller1.ButtonUp.pressed(buttonUpFunction);
@@ -318,6 +331,7 @@ void quickTestCode()
   printControllerScreen("Running test...");
   // Write test code here:
 
+  side_auton();
 
 
   double t2 = Brain.Timer.time(sec);
