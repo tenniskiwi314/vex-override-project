@@ -13,20 +13,49 @@
 // todo: break down into steps and write comments
 void front_auton(){
   chassis.setHeading(0);
+  //clamp onto the preload
+  grabberMotor.setVelocity(40, percent);
   grabberMotor.spinFor(reverse, .5, seconds);
   grabberMotor.stop(hold);
-  liftMotor.spinFor(forward, 100, degrees);
+  //lifts the preload off of the ground
+  liftMotor.setVelocity(40, percent);
+  liftMotor.spinFor(forward, 105, degrees);
+  //turns the toggle
   rollerMotor.setVelocity(40, percent);
   rollerMotor.spinFor(1.5, sec);
+  //drives forward by one square and then turn
   chassis.drive(16, 4);
   chassis.turn(90, 8);
   chassis.drive(16, 4);
+  //releases the preload
   grabberMotor.spinFor(forward, .5, seconds);
   wait(1, seconds);
+  //drives backward
   chassis.drive(-12, 3);
 }
 
 void side_auton(){ 
+  chassis.setHeading(0);
+  //clamp onto the preload
+  grabberMotor.setVelocity(40, percent);
+  grabberMotor.spinFor(reverse, .5, seconds);
+  grabberMotor.stop(hold);
+  //lifts the preload off of the ground
+  liftMotor.setVelocity(40, percent);
+  liftMotor.spinFor(forward, 110, degrees);
+  //turns the toggle
+  rollerMotor.setVelocity(40, percent);
+  rollerMotor.spinFor(1.5, sec);
+  //drives forward by one square and then turn
+  chassis.drive(16, 4);
+  chassis.turn(-90, 10);
+  chassis.drive(16, 4);
+  //releases the preload
+  grabberMotor.spinFor(forward, .5, seconds);
+  wait(1, seconds);
+  //drives backward
+  chassis.drive(-12, 3);
+
 }
 
 // The names of the autonomous routines to be displayed in the menu.

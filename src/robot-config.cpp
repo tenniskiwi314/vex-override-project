@@ -201,19 +201,28 @@ bool liftAtMin()
 
 void buttonUpFunction() {
   //todo: single press to lift the lift just a bit
-  liftMotor.spin(forward, 6, volt);
   while(controller1.ButtonUp.pressing()) {
      wait(20, msec);
+     liftMotor.spin(forward, 8, volt);
+  wait(200, msec);
+  if (controller1.ButtonUp.pressing()) {
+    liftMotor.spin(forward, 5, volt);
+    return;  
   }
   liftMotor.stop(hold);
   getLiftPosition(true);
 }
+}
 
 void buttonDownFunction() {
   //todo: single press to lower the lift just a bit
-  liftMotor.spin(reverse, 4, volt);
   while(controller1.ButtonDown.pressing()) {
      wait(20, msec);
+     liftMotor.spin(reverse, 8, volt);
+  wait(200, msec);
+  if (controller1.ButtonDown.pressing()) {
+    liftMotor.spin(reverse, 5, volt);
+    return;  
   }
   liftMotor.stop(hold);
   if (liftAtMin()) {
@@ -221,15 +230,26 @@ void buttonDownFunction() {
   }
   getLiftPosition(true);
 }
+}
 
 bool cupDetected() {
-  return false;
   if (!grabberSensor.installed()) return false;
+  if (!controller1.ButtonR2.pressing()) return false;
+  float gameObjectDistance = grabberSensor.objectDistance(inches);
+  if (gameObjectDistance > 5) return false;
+  else return true;
   // todo: detect the cup using distance sensor
 }
 
 void autoGrab() {
   controller1.rumble("-");
+  drive_mode=-1;
+  chassis.driveWithVoltage(0, 0);
+  grabberMotor.spinFor(reverse, 300, msec, 30, velocityUnits::pct);
+  grabberMotor.stop(hold);
+  liftMotor.setVelocity(100, percent);
+  liftMotor.spinFor(forward, 110, degrees);
+  drive_mode=DRIVE_MODE;
   // todo: automatically capture the cup and pin
 }
 
@@ -331,7 +351,7 @@ void quickTestCode()
   printControllerScreen("Running test...");
   // Write test code here:
 
-  side_auton();
+  front_auton();
 
 
   double t2 = Brain.Timer.time(sec);
