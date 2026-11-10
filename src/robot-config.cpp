@@ -200,36 +200,24 @@ bool liftAtMin()
 // ------------------------------------------------------------------------
 
 void buttonUpFunction() {
-  //todo: single press to lift the lift just a bit
+  liftMotor.spin(forward, 6, volt);
   while(controller1.ButtonUp.pressing()) {
      wait(20, msec);
-     liftMotor.spin(forward, 8, volt);
-  wait(200, msec);
-  if (controller1.ButtonUp.pressing()) {
-    liftMotor.spin(forward, 5, volt);
-    return;  
   }
   liftMotor.stop(hold);
   getLiftPosition(true);
 }
-}
 
 void buttonDownFunction() {
-  //todo: single press to lower the lift just a bit
+  liftMotor.spin(reverse, 4, volt);
   while(controller1.ButtonDown.pressing()) {
      wait(20, msec);
-     liftMotor.spin(reverse, 8, volt);
-  wait(200, msec);
-  if (controller1.ButtonDown.pressing()) {
-    liftMotor.spin(reverse, 5, volt);
-    return;  
   }
   liftMotor.stop(hold);
   if (liftAtMin()) {
     liftMotor.stop(coast);
   }
   getLiftPosition(true);
-}
 }
 
 bool cupDetected() {
