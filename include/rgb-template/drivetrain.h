@@ -21,10 +21,10 @@ private:
   float driveMaxVoltage = 10, headingMaxVoltage = 6, turnMaxVoltage = 10;
 
   // PID constants for turning.
-  float turnKp = 0.2, turnKi = 0.015, turnKd = 1.5, turnStarti = 7.5;
+  float turnKp = 0.2, turnKi = 0.15, turnKd = 1.5, turnStarti = 10;
 
   // turn exit conditions.
-  float turnSettleError = 1.5, turnSettleTime = 300, turnTimeout = 3000;
+  float turnSettleError = 2, turnSettleTime = 300, turnTimeout = 3000;
 
   // PID constants for driving.
   float driveKp = 1.5, driveKi = 0, driveKd = 10, driveStarti = 0;

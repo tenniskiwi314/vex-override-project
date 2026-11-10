@@ -10,7 +10,7 @@
 //             Auton Functions
 // ----------------------------------------------------------------------------
 
-// todo: break down into steps and write comments
+// todo: further fine tune the parameter to make the auton more reliable
 void front_auton(){
   chassis.setHeading(0);
   //clamp onto the preload
@@ -48,14 +48,13 @@ void side_auton(){
   rollerMotor.spinFor(1.5, sec);
   //drives forward by one square and then turn
   chassis.drive(16, 4);
-  chassis.turn(-90, 10);
+  chassis.turn(-90, 8);
   chassis.drive(16, 4);
   //releases the preload
   grabberMotor.spinFor(forward, .5, seconds);
   wait(1, seconds);
   //drives backward
   chassis.drive(-12, 3);
-
 }
 
 // The names of the autonomous routines to be displayed in the menu.

@@ -226,9 +226,9 @@ bool cupDetected() {
   float gameObjectDistance = grabberSensor.objectDistance(inches);
   if (gameObjectDistance > 5) return false;
   else return true;
-  // todo: detect the cup using distance sensor
 }
 
+// todo: further fine tune the auto grab sequence
 void autoGrab() {
   controller1.rumble("-");
   drive_mode=-1;
@@ -238,7 +238,6 @@ void autoGrab() {
   liftMotor.setVelocity(100, percent);
   liftMotor.spinFor(forward, 110, degrees);
   drive_mode=DRIVE_MODE;
-  // todo: automatically capture the cup and pin
 }
 
 //Kevin's function for grabber motor 10/15/26
@@ -340,7 +339,6 @@ void quickTestCode()
   // Write test code here:
 
   front_auton();
-
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];
