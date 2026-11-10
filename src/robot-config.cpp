@@ -338,7 +338,7 @@ void quickTestCode()
   printControllerScreen("Running test...");
   // Write test code here:
 
-  front_auton();
+  chassis.drive(24, 6);
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];

@@ -21,19 +21,19 @@ private:
   float driveMaxVoltage = 10, headingMaxVoltage = 6, turnMaxVoltage = 10;
 
   // PID constants for turning.
-  float turnKp = 0.2, turnKi = 0.15, turnKd = 1.5, turnStarti = 10;
+  float turnKp = 0.25, turnKi = 0.05, turnKd = 0.5, turnStarti = 10;
 
   // turn exit conditions.
-  float turnSettleError = 2, turnSettleTime = 300, turnTimeout = 3000;
+  float turnSettleError = 2, turnSettleTime = 300, turnTimeout = 2000;
 
   // PID constants for driving.
-  float driveKp = 1.5, driveKi = 0, driveKd = 10, driveStarti = 0;
+  float driveKp = 2, driveKi = 0, driveKd = 10, driveStarti = 0;
 
   // drive exit conditions.
   float driveSettleError = 1, driveSettleTime = 300, driveTimeout = 3000;
 
   // PID constants for maintaining heading while driving.
-  float headingKp = 0.4, headingKd = 1;
+  float headingKp = 0.5, headingKd = 1;
 
   // Constants for arcade drive.
   float kBrake = 0.5, kTurnBias = 0.5, kTurnDampingFactor = 0.85;
