@@ -22,7 +22,7 @@ const int TOP_SPEED = 100; // overall drive speed limit, set to 100 if no speed 
 const int SPEED_HEIGHT_LIMIT = 60; // drive speed limit when lift is at max height, set to 100 if no speed reduction is needed
 
 const int INERTIAL_PORT = 4;
-const int INERTIAL_SCALE = 360;
+const int INERTIAL_SCALE = 357;
 
 const int GRABBER_PORT = -13;
 const int GRABBER_SENSOR_PORT = 15;

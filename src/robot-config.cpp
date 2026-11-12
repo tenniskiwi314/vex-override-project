@@ -338,7 +338,7 @@ void quickTestCode()
   printControllerScreen("Running test...");
   // Write test code here:
 
-  chassis.drive(24, 6);
+  chassis.turn(chassis.getHeading()+90, 8);
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];
