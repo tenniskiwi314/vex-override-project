@@ -12,14 +12,16 @@
 
 // todo: further fine tune the parameter to make the auton more reliable
 void front_auton(){
+  float rotdeg = 200.;
   chassis.setHeading(0);
   //clamp onto the preload
   grabberMotor.setVelocity(40, percent);
   grabberMotor.spinFor(reverse, .5, seconds);
   grabberMotor.stop(hold);
   //lifts the preload off of the ground
+  liftMotor.setPosition(0, degrees);
   liftMotor.setVelocity(40, percent);
-  liftMotor.spinFor(forward, 105, degrees);
+  liftMotor.spinFor(forward, rotdeg, degrees);
   //turns the toggle
   rollerMotor.setVelocity(40, percent);
   rollerMotor.spinFor(1.5, sec);
@@ -32,9 +34,11 @@ void front_auton(){
   wait(1, seconds);
   //drives backward
   chassis.drive(-12, 3);
+  liftMotor.spinFor(reverse, rotdeg, degrees);
 }
 
-void side_auton(){ 
+void side_auton(){
+  float rotdeg = 200.; 
   chassis.setHeading(0);
   //clamp onto the preload
   grabberMotor.setVelocity(40, percent);
@@ -42,7 +46,7 @@ void side_auton(){
   grabberMotor.stop(hold);
   //lifts the preload off of the ground
   liftMotor.setVelocity(40, percent);
-  liftMotor.spinFor(forward, 110, degrees);
+  liftMotor.spinFor(forward, rotdeg, degrees);
   //turns the toggle
   rollerMotor.setVelocity(40, percent);
   rollerMotor.spinFor(1.5, sec);
@@ -55,6 +59,7 @@ void side_auton(){
   wait(1, seconds);
   //drives backward
   chassis.drive(-12, 3);
+  liftMotor.spinFor(reverse, rotdeg, degrees);
 }
 
 // The names of the autonomous routines to be displayed in the menu.

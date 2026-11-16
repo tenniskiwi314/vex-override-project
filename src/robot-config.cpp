@@ -338,8 +338,16 @@ void quickTestCode()
   printControllerScreen("Running test...");
   // Write test code here:
 
-  chassis.turn(chassis.getHeading()+90, 8);
 
+color detectColor = rollerOptical.color(); 
+if (detectColor == color::red)
+{	
+	  printControllerScreen("detected red");
+}
+else(printControllerScreen("not detected"));
+wait(3, seconds);
+
+  
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];
   sprintf(timeMsg, "run  time: %.1f", t2-t1);
@@ -350,3 +358,4 @@ void quickTestCode()
  // showMotorTemperature();
   additionalSetupDriver();
 }
+

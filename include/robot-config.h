@@ -38,6 +38,38 @@ const int OPTICAL_PORT = UNUSED_PORT;
 const int NUMBER_OF_MOTORS = 8;
 
 #endif
+#ifdef onemotortest
+const int LEFT_PORT1 = UNUSED_PORT;
+const int LEFT_PORT2 = UNUSED_PORT;
+const int LEFT_PORT3 = UNUSED_PORT;
+const int RIGHT_PORT1 = UNUSED_PORT;
+const int RIGHT_PORT2 = UNUSED_PORT;
+const int RIGHT_PORT3 = UNUSED_PORT;
+const float WHEEL_DIAMETER = 2.75;
+const float GEAR_RATIO = 0.75;
+
+const int DRIVE_MODE = 1; //1 = double arcade, 2 = tank, 0 = single arcade
+const bool LEFT_RIGHT_STICK_SWAP = false;
+const int TOP_SPEED = 100; // overall drive speed limit, set to 100 if no speed limit
+const int SPEED_HEIGHT_LIMIT = 60; // drive speed limit when lift is at max height, set to 100 if no speed reduction is needed
+
+const int INERTIAL_PORT = UNUSED_PORT;
+const int INERTIAL_SCALE = 357;
+
+const int GRABBER_PORT = UNUSED_PORT;
+const int GRABBER_SENSOR_PORT =UNUSED_PORT;
+
+const int LIFT_PORT1 = UNUSED_PORT;
+const int LIFT_PORT2 = UNUSED_PORT;
+const int LIFT_SENSOR_PORT = UNUSED_PORT;  
+const float LIFT_MAX_HEIGHT = 940; // the max lift position, Set to 0 if lift position can not be correctly measured.
+
+const int ROLLER_PORT = 11;  
+const int OPTICAL_PORT = 12;  
+
+const int NUMBER_OF_MOTORS = 1;
+
+#endif
 
 #ifdef teamA_practice_bot
 const int LEFT_PORT1 = 20;
