@@ -2,7 +2,7 @@
 using namespace vex;
 
 // you can define multiple robots with different motor configs
-#define teamA_competition_bot 
+#define teamA_practice_bot 
 
 #define UNUSED_PORT -21
 
@@ -83,19 +83,19 @@ const float GEAR_RATIO = 0.75;
 
 const int DRIVE_MODE = 1; //1 = double arcade, 2 = tank, 0 = single arcade
 const bool LEFT_RIGHT_STICK_SWAP = false;
-int TOP_SPEED = 75; // overall drive speed limit, set to 100 if no speed limit
-const int SPEED_HEIGHT_LIMIT = 50; // drive speed limit when lift is at max height, set to 100 if no speed reduction is needed
+const int TOP_SPEED = 100; // overall drive speed limit, set to 100 if no speed limit
+const int SPEED_HEIGHT_LIMIT = 60; // drive speed limit when lift is at max height, set to 100 if no speed reduction is needed
 
-const int INERTIAL_PORT = UNUSED_PORT;
+const int INERTIAL_PORT = 14;
 const int INERTIAL_SCALE = 360;
 
-const int GRABBER_PORT = -12;
+const int GRABBER_PORT = -11;
 const int GRABBER_SENSOR_PORT = UNUSED_PORT;
 
-const int LIFT_PORT1 = 18;
+const int LIFT_PORT1 = 19;
 const int LIFT_PORT2 = UNUSED_PORT;
-const int LIFT_SENSOR_PORT = 13;  
-const float LIFT_MAX_HEIGHT = 700; // the max lift position, Set to 0 if lift position can not be correctly measured.
+const int LIFT_SENSOR_PORT = -15;  
+const float LIFT_MAX_HEIGHT = 900; // the max lift position, Set to 0 if lift position can not be correctly measured.
 
 const int ROLLER_PORT = 1;  
 const int OPTICAL_PORT = UNUSED_PORT;  
