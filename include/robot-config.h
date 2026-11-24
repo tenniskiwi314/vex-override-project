@@ -2,7 +2,7 @@
 using namespace vex;
 
 // you can define multiple robots with different motor configs
-#define teamA_practice_bot 
+#define teamA_competition_bot 
 
 #define UNUSED_PORT -21
 

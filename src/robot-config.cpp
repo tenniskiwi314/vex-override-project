@@ -236,13 +236,14 @@ void autoGrab() {
   grabberMotor.spinFor(reverse, 300, msec, 30, velocityUnits::pct);
   grabberMotor.stop(hold);
   liftMotor.setVelocity(100, percent);
-  liftMotor.spinFor(forward, 110, degrees);
+  liftMotor.spinFor(forward, 50, degrees);
   drive_mode=DRIVE_MODE;
 }
 
 //Kevin's function for grabber motor 10/15/26
 // single press to open grabber, hold to close grabber
 void buttonL1Function() {
+  //open the claw
   grabberMotor.spin(forward, 8, volt);
   wait(200, msec);
   grabberMotor.stop(coast);
@@ -339,15 +340,25 @@ void quickTestCode()
   // Write test code here:
 
 
-color detectColor = rollerOptical.color(); 
-if (detectColor == color::red)
-{	
-	  printControllerScreen("detected red");
-}
-else(printControllerScreen("not detected"));
-wait(3, seconds);
+chassis.setHeading(90);
+chassis.turn(33);
+chassis.drive(20);
+int  time_int=0;
+while(time_int < 2000)
+  {
+  chassis.driveWithVoltage(2, 2);
+  float gameObjectDistance = grabberSensor.objectDistance(inches);
+  if (gameObjectDistance < 5)
+  {
+    autoGrab();
+    break;
+  }
+  wait(10, msec);
+  time_int=time_int+10;
 
-  
+}
+
+
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];
   sprintf(timeMsg, "run  time: %.1f", t2-t1);
