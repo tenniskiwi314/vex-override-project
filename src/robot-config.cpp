@@ -221,11 +221,12 @@ void buttonDownFunction() {
 }
 
 bool cupDetected() {
+  if (controller1.ButtonR2.pressing()) return false; // manual override
   if (!grabberSensor.installed()) return false;
-  if (!controller1.ButtonR2.pressing()) return false;
   float gameObjectDistance = grabberSensor.objectDistance(inches);
   if (gameObjectDistance > 5) return false;
-  else return true;
+  
+  return true;
 }
 
 // todo: further fine tune the auto grab sequence
@@ -233,15 +234,16 @@ void autoGrab() {
   controller1.rumble("-");
   drive_mode=-1;
   chassis.driveWithVoltage(0, 0);
-  grabberMotor.spinFor(reverse, 300, msec, 30, velocityUnits::pct);
+  grabberMotor.spinFor(reverse, 500, msec, 30, velocityUnits::pct);
   grabberMotor.stop(hold);
   liftMotor.setVelocity(100, percent);
-  liftMotor.spinFor(forward, 50, degrees);
+  liftMotor.spinFor(forward, 80, degrees);
   drive_mode=DRIVE_MODE;
 }
 
 //Kevin's function for grabber motor 10/15/26
 // single press to open grabber, hold to close grabber
+// todo: write comments to better understand the logic
 void buttonL1Function() {
   //open the claw
   grabberMotor.spin(forward, 8, volt);
@@ -249,8 +251,12 @@ void buttonL1Function() {
   grabberMotor.stop(coast);
   wait(400, msec);  
   if (!controller1.ButtonL1.pressing()) {
-    grabberMotor.stop(coast);
-    liftMotor.stop(coast);
+    if (!liftAtMin())
+    {
+      liftMotor.spin(reverse, 6, volt);
+      wait(200, msec);
+      liftMotor.stop(coast);
+    }
     return;  
   }
   
@@ -340,23 +346,10 @@ void quickTestCode()
   // Write test code here:
 
 
-chassis.setHeading(90);
-chassis.turn(33);
-chassis.drive(20);
-int  time_int=0;
-while(time_int < 2000)
-  {
-  chassis.driveWithVoltage(2, 2);
-  float gameObjectDistance = grabberSensor.objectDistance(inches);
-  if (gameObjectDistance < 5)
-  {
-    autoGrab();
-    break;
-  }
-  wait(10, msec);
-  time_int=time_int+10;
+ // chassis.setHeading(90);
+  scorePreload(1);
+  scoreOneCup(1);
 
-}
 
 
   double t2 = Brain.Timer.time(sec);

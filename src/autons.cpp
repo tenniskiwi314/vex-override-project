@@ -3,41 +3,9 @@
 // ----------------------------------------------------------------------------
 //             helper Functions
 // ----------------------------------------------------------------------------
-
-
-
-// ----------------------------------------------------------------------------
-//             Auton Functions
-// ----------------------------------------------------------------------------
-
-// todo: further fine tune the parameter to make the auton more reliable
-void front_auton(){
-  float rotdeg = 200.;
-  chassis.setHeading(0);
-  //clamp onto the preload
-  grabberMotor.setVelocity(40, percent);
-  grabberMotor.spinFor(reverse, .5, seconds);
-  grabberMotor.stop(hold);
-  //lifts the preload off of the ground
-  liftMotor.setPosition(0, degrees);
-  liftMotor.setVelocity(40, percent);
-  liftMotor.spinFor(forward, rotdeg, degrees);
-  //turns the toggle
-  rollerMotor.setVelocity(40, percent);
-  rollerMotor.spinFor(1.5, sec);
-  //drives forward by one square and then turn
-  chassis.drive(16, 4);
-  chassis.turn(90, 8);
-  chassis.drive(16, 4);
-  //releases the preload
-  grabberMotor.spinFor(forward, .5, seconds);
-  wait(1, seconds);
-  //drives backward
-  chassis.drive(-12, 3);
-  liftMotor.spinFor(reverse, rotdeg, degrees);
-}
-
-void side_auton(){
+// direction: 1=front, -1=side
+void scorePreload(int direction)
+{
   float rotdeg = 200.; 
   chassis.setHeading(0);
   //clamp onto the preload
@@ -52,14 +20,53 @@ void side_auton(){
   rollerMotor.spinFor(1.5, sec);
   //drives forward by one square and then turn
   chassis.drive(16, 8);
-  chassis.turn(-90, 8);
+  chassis.turn(direction * 90, 8);
   chassis.drive(16, 8);
   //releases the preload
   grabberMotor.spinFor(forward, 500, msec);
-  wait(500, msec);
+  grabberMotor.stop(hold);
   //drives backward
   chassis.drive(-12);
   liftMotor.spinFor(reverse, rotdeg, degrees, false);
+}
+
+// todo: write comments below
+// todo: complete scoring step
+bool scoreOneCup(int direction)
+{
+  chassis.turn(direction*35);
+  chassis.drive(20);
+
+  int  time_int=0;
+  while(time_int < 2000)
+  {
+    chassis.driveWithVoltage(3, 3);
+    float gameObjectDistance = grabberSensor.objectDistance(inches);
+    if (gameObjectDistance < 5)
+    {
+      chassis.driveWithVoltage(0, 0);
+      grabberMotor.spinFor(reverse, 500, msec, 30, velocityUnits::pct);
+      grabberMotor.stop(hold);
+      liftMotor.spinFor(forward, 400, degrees, 40, velocityUnits::pct);
+      return true;
+    }
+    wait(10, msec);
+    time_int=time_int+10;
+  }
+  return false;
+}
+
+// ----------------------------------------------------------------------------
+//             Auton Functions
+// ----------------------------------------------------------------------------
+
+// todo: further fine tune the parameter to make the auton more reliable
+void front_auton(){
+  scorePreload(1);
+}
+
+void side_auton(){
+  scorePreload(-1);
 }
 
 // The names of the autonomous routines to be displayed in the menu.

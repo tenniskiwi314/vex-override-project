@@ -1,5 +1,8 @@
 #pragma once
 #include "rgb-template/drivetrain.h"
+void scorePreload(int direction);
+bool scoreOneCup(int direction);
+
 
 void front_auton();
 void side_auton();

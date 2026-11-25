@@ -141,6 +141,7 @@ const int NUMBER_OF_MOTORS = 2;
 extern motor_group liftMotor;
 extern motor grabberMotor;
 extern motor rollerMotor;
+extern distance grabberSensor;
 
 float speedLimitWithHeight();
 float getLiftPosition(bool printPosition = false);
