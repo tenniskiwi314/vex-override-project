@@ -249,13 +249,16 @@ void buttonL1Function() {
   grabberMotor.spin(forward, 8, volt);
   wait(200, msec);
   grabberMotor.stop(coast);
+  //make the motor spin
   wait(400, msec);  
   if (!controller1.ButtonL1.pressing()) {
+    //if the button is not being pressed
     if (!liftAtMin())
     {
       liftMotor.spin(reverse, 6, volt);
       wait(200, msec);
       liftMotor.stop(coast);
+      //always return to minimum height
     }
     return;  
   }
